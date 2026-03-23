@@ -1,4 +1,5 @@
-name: MoodSync Windows EXE
+name: MoodSync Windows EXE for win
+
 
 on:
   push:
