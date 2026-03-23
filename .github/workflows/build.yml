@@ -1,0 +1,33 @@
+name: MoodSync Windows EXE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer dépendances
+        run: |
+          pip install PyQt6 PyQt6-WebEngine pyinstaller
+
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --windowed `
+            --name MoodSync `
+            --collect-all PyQt6 `
+            moodsync_browser.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoodSync-Windows
+          path: dist/MoodSync.exe
